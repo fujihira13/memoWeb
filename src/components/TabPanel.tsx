@@ -7,10 +7,6 @@ interface TabPanelProps {
   value: number;
 }
 
-/**
- * TabPanelコンポーネント
- * タブの内容を表示するコンポーネント
- */
 export const TabPanel = (props: TabPanelProps) => {
   const { children, value, index } = props;
 
