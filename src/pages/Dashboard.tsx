@@ -24,7 +24,7 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useExpenseStorage } from "../hooks/useExpenseStorage";
-import { Expense, ExpenseCategory } from "../types/expense";
+import { Expense } from "../types/expense";
 
 const StyledCard = styled(Card)`
   background-color: #ffffff;
@@ -48,21 +48,19 @@ const ProgressFill = styled(Box)<{ width: string }>`
   width: ${(props) => props.width};
 `;
 
-const timeRangeLabels: Record<NonNullable<Expense["timeRange"]>, string> = {
+const timeRangeLabels = {
   breakfast: "朝食",
   lunch: "昼食",
   dinner: "夕食",
   snack: "間食",
-  other: "その他",
 };
 
-const categoryLabels: Record<ExpenseCategory, string> = {
+const categoryLabels = {
   grocery: "スーパー",
   eating_out: "外食",
   convenience: "コンビニ",
   snack: "間食",
   drinking: "飲み会",
-  home_cooking: "自炊",
   other: "その他",
 };
 
@@ -71,14 +69,9 @@ export const Dashboard = () => {
   const [selectedMonth, setSelectedMonth] = useState(new Date());
   const [activeTab, setActiveTab] = useState(0);
   const [editingExpense, setEditingExpense] = useState<Expense | null>(null);
-  const [editFormData, setEditFormData] = useState<{
-    amount: string;
-    category: ExpenseCategory;
-    timeRange: NonNullable<Expense["timeRange"]> | "";
-    memo: string;
-  }>({
+  const [editFormData, setEditFormData] = useState({
     amount: "",
-    category: "grocery",
+    category: "",
     timeRange: "",
     memo: "",
   });
@@ -147,7 +140,7 @@ export const Dashboard = () => {
         ...editingExpense,
         amount: Number(editFormData.amount),
         category: editFormData.category,
-        timeRange: editFormData.timeRange || undefined,
+        timeRange: editFormData.timeRange,
         memo: editFormData.memo,
       };
       await updateExpense(updatedExpense);
@@ -274,9 +267,7 @@ export const Dashboard = () => {
                       alignItems="center"
                     >
                       <Typography>
-                        {timeRangeLabels[
-                          timeRange as keyof typeof timeRangeLabels
-                        ] || "未分類"}
+                        {timeRangeLabels[timeRange] || "未分類"}
                       </Typography>
                       <Box textAlign="right">
                         <Typography>¥{data.amount.toLocaleString()}</Typography>
@@ -344,9 +335,7 @@ export const Dashboard = () => {
                         {new Date(expense.date).toLocaleDateString("ja-JP")}
                       </Typography>
                       <Typography>
-                        {(expense.timeRange &&
-                          timeRangeLabels[expense.timeRange]) ||
-                          "未分類"}
+                        {timeRangeLabels[expense.timeRange] || "未分類"}
                       </Typography>
                       <Typography>
                         {categoryLabels[expense.category]}
@@ -405,7 +394,7 @@ export const Dashboard = () => {
             onChange={(e) =>
               setEditFormData({
                 ...editFormData,
-                category: e.target.value as ExpenseCategory,
+                category: e.target.value,
               })
             }
           >
@@ -424,9 +413,7 @@ export const Dashboard = () => {
             onChange={(e) =>
               setEditFormData({
                 ...editFormData,
-                timeRange: e.target.value as
-                  | NonNullable<Expense["timeRange"]>
-                  | "",
+                timeRange: e.target.value,
               })
             }
           >
