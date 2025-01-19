@@ -15,6 +15,7 @@ export interface Expense {
   category: ExpenseCategory;
   date: Date;
   mealTime: MealTime;
+  timeRange?: MealTime;
   isHomeMade: boolean;
   memo?: string;
 }

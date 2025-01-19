@@ -15,6 +15,7 @@ import {
 } from "@mui/material";
 import { useExpenseStorage } from "../hooks/useExpenseStorage";
 import { useNavigate } from "react-router-dom";
+import { ExpenseCategory, MealTime } from "../types/expense";
 
 // スタイル付きのトグルボタン
 const StyledToggleButton = styled(ToggleButton)(({ theme }) => ({
@@ -41,7 +42,7 @@ const categories = [
 ];
 
 // 食事の時間帯の定義
-const mealTimes = [
+const mealTimes: { value: MealTime; label: string }[] = [
   { value: "breakfast", label: "朝食" },
   { value: "lunch", label: "昼食" },
   { value: "dinner", label: "夕食" },
@@ -52,8 +53,8 @@ export const Expense = () => {
   const navigate = useNavigate();
   const { addExpense } = useExpenseStorage();
   const [amount, setAmount] = useState<string>("");
-  const [category, setCategory] = useState<string>("");
-  const [mealTime, setMealTime] = useState<string>("");
+  const [category, setCategory] = useState<ExpenseCategory>("grocery");
+  const [mealTime, setMealTime] = useState<MealTime>("breakfast");
   const [isHomeMade, setIsHomeMade] = useState(false);
   const [date, setDate] = useState(new Date().toISOString().split("T")[0]);
   const [showSuccess, setShowSuccess] = useState(false);
@@ -72,6 +73,7 @@ export const Expense = () => {
         category: "home_cooking",
         date: new Date(date),
         mealTime,
+        timeRange: mealTime,
         isHomeMade,
       });
     } else {
@@ -85,6 +87,7 @@ export const Expense = () => {
         category,
         date: new Date(date),
         mealTime,
+        timeRange: mealTime,
         isHomeMade,
       });
     }
@@ -99,8 +102,8 @@ export const Expense = () => {
 
     // フォームをリセット
     setAmount("");
-    setCategory("");
-    setMealTime("");
+    setCategory("grocery");
+    setMealTime("breakfast");
     setIsHomeMade(false);
   };
 

@@ -598,7 +598,7 @@ export const Dashboard = () => {
             onChange={(e) =>
               setEditFormData({
                 ...editFormData,
-                category: e.target.value,
+                category: e.target.value as ExpenseCategory,
               })
             }
           >
