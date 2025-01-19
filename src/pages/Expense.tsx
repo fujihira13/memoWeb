@@ -15,7 +15,7 @@ import {
 } from "@mui/material";
 import { useExpenseStorage } from "../hooks/useExpenseStorage";
 import { useNavigate } from "react-router-dom";
-import { ExpenseCategory, MealTime } from "../types/expense";
+import { ExpenseCategory, MealTime } from "../types";
 
 // スタイル付きのトグルボタン
 const StyledToggleButton = styled(ToggleButton)(({ theme }) => ({

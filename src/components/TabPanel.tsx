@@ -1,11 +1,6 @@
 import { Box } from "@mui/material";
 import { ReactNode } from "react";
-
-interface TabPanelProps {
-  children?: ReactNode;
-  index: number;
-  value: number;
-}
+import { TabPanelProps } from "../types";
 
 export const TabPanel = (props: TabPanelProps) => {
   const { children, value, index } = props;
