@@ -18,7 +18,13 @@ import StoreIcon from "@mui/icons-material/Store";
 import KitchenIcon from "@mui/icons-material/Kitchen";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import { useExpenseStorage } from "../hooks/useExpenseStorage";
-import { StyledCard, ProgressBar, ProgressFill } from "../components/reports";
+import {
+  StyledCard,
+  MonthlyExpenseCard,
+  DailyAverageCard,
+  MonthlyBudgetCard,
+  CategoryExpenseCard,
+} from "../components/reports";
 
 const categoryIcons = {
   grocery: ShoppingCartIcon,
@@ -39,6 +45,20 @@ const categoryLabels: { [key: string]: string } = {
   home_cooking: "自炊",
   other: "その他",
 };
+
+const ProgressBar = styled.div`
+  background-color: #e0e0e0;
+  border-radius: 4px;
+  height: 8px;
+  margin-top: 4px;
+`;
+
+const ProgressFill = styled.div<{ width: string }>`
+  background-color: #009688;
+  border-radius: 4px;
+  height: 100%;
+  width: ${(props) => props.width};
+`;
 
 export const Report = () => {
   const { getMonthlyExpenses, budget } = useExpenseStorage();
@@ -121,81 +141,19 @@ export const Report = () => {
       </StyledCard>
 
       {/* 月間支出の推移 */}
-      <StyledCard>
-        <CardContent>
-          <Typography variant="subtitle1" color="text.secondary">
-            月間支出の推移
-          </Typography>
-          <Typography variant="h4" sx={{ my: 1 }}>
-            ¥{total.toLocaleString()}
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            先月: ¥{lastMonthTotal.toLocaleString()}
-          </Typography>
-        </CardContent>
-      </StyledCard>
+      <MonthlyExpenseCard total={total} lastMonthTotal={lastMonthTotal} />
 
       {/* 1日あたりの平均 */}
-      <StyledCard>
-        <CardContent>
-          <Typography variant="subtitle1" color="text.secondary">
-            1日あたりの平均
-          </Typography>
-          <Typography variant="h4" sx={{ my: 1 }}>
-            ¥{averagePerDay.toLocaleString()}
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            目標: ¥{budget.dailyBudget.toLocaleString()}/日
-          </Typography>
-        </CardContent>
-      </StyledCard>
+      <DailyAverageCard
+        averagePerDay={averagePerDay}
+        budget={budget.dailyBudget}
+      />
 
       {/* 月間予算 */}
-      <StyledCard>
-        <CardContent>
-          <Typography variant="subtitle1" color="text.secondary">
-            月間予算
-          </Typography>
-          <Typography variant="h4" sx={{ my: 1 }}>
-            ¥{budget.monthlyBudget.toLocaleString()}
-          </Typography>
-        </CardContent>
-      </StyledCard>
+      <MonthlyBudgetCard monthlyBudget={budget.monthlyBudget} />
 
       {/* カテゴリー別支出 */}
-      <StyledCard>
-        <CardContent>
-          <Typography variant="subtitle1" color="text.secondary" gutterBottom>
-            カテゴリー別支出
-          </Typography>
-          <Stack spacing={2}>
-            {Object.entries(categorySummaries)
-              .sort(([, a], [, b]) => b.total - a.total)
-              .map(([category, summary]) => {
-                const Icon =
-                  categoryIcons[category as keyof typeof categoryIcons];
-                return (
-                  <Box key={category}>
-                    <Box display="flex" alignItems="center" gap={1}>
-                      <Icon color="action" />
-                      <Box flexGrow={1}>
-                        <Box display="flex" justifyContent="space-between">
-                          <Typography>{categoryLabels[category]}</Typography>
-                          <Typography>
-                            ¥{summary.total.toLocaleString()}
-                          </Typography>
-                        </Box>
-                        <ProgressBar>
-                          <ProgressFill width={`${summary.percentage}%`} />
-                        </ProgressBar>
-                      </Box>
-                    </Box>
-                  </Box>
-                );
-              })}
-          </Stack>
-        </CardContent>
-      </StyledCard>
+      <CategoryExpenseCard categorySummaries={categorySummaries} />
     </Box>
   );
 };
