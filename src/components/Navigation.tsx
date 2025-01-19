@@ -7,6 +7,7 @@ import {
   ListItemText,
   BottomNavigation,
   BottomNavigationAction,
+  ListItemButton,
 } from "@mui/material";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import AssessmentIcon from "@mui/icons-material/Assessment";
@@ -32,15 +33,14 @@ export const Navigation = ({ orientation }: NavigationProps) => {
     return (
       <List>
         {navItems.map((item) => (
-          <ListItem
-            button
+          <ListItemButton
             key={item.path}
             selected={location.pathname === item.path}
             onClick={() => navigate(item.path)}
           >
             <ListItemIcon>{item.icon}</ListItemIcon>
             <ListItemText primary={item.label} />
-          </ListItem>
+          </ListItemButton>
         ))}
       </List>
     );
