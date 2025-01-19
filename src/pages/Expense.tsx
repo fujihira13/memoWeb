@@ -20,6 +20,7 @@ import { ExpenseFormInputs } from "../components/expense/ExpenseFormInputs";
 import { ExpenseMealTime } from "../components/expense/ExpenseMealTime";
 import { ToggleButton as MuiToggleButton } from "@mui/material";
 import { ExpenseSubmit } from "../components/expense/ExpenseSubmit";
+import { ExpenseForm } from "../components/expense/ExpenseForm";
 
 // 食事の時間帯の定義
 const mealTimes: { value: MealTime; label: string }[] = [
@@ -101,52 +102,5 @@ export const Expense = () => {
     setIsHomeMade(false);
   };
 
-  return (
-    <Box sx={{ p: 2, maxWidth: 600, mx: "auto" }}>
-      <Typography variant="h5" sx={{ mb: 3, textAlign: "center" }}>
-        支出を記録
-      </Typography>
-
-      <Stack spacing={3}>
-        {/* 自炊スイッチ */}
-        <FormControlLabel
-          control={
-            <Switch
-              checked={isHomeMade}
-              onChange={(e) => setIsHomeMade(e.target.checked)}
-            />
-          }
-          label="自炊"
-        />
-
-        {/* 金額入力とカテゴリー選択（自炊モードがオフの時のみ表示） */}
-        {!isHomeMade && (
-          <ExpenseFormInputs
-            amount={amount}
-            category={category}
-            onAmountChange={setAmount}
-            onCategoryChange={setCategory}
-          />
-        )}
-
-        {/* 食事の時間帯 */}
-        <ExpenseMealTime mealTime={mealTime} onMealTimeChange={setMealTime} />
-
-        {/* 日付選択 */}
-        <TextField
-          type="date"
-          value={date}
-          onChange={(e) => setDate(e.target.value)}
-          fullWidth
-        />
-
-        {/* 送信ボタン */}
-        <ExpenseSubmit
-          onSubmit={handleSubmit}
-          showSuccess={showSuccess}
-          onCloseSuccess={() => setShowSuccess(false)}
-        />
-      </Stack>
-    </Box>
-  );
+  return <ExpenseForm />;
 };
