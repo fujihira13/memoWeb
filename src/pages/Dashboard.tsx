@@ -30,7 +30,7 @@ import LocalBarIcon from "@mui/icons-material/LocalBar";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import KitchenIcon from "@mui/icons-material/Kitchen";
 import { useExpenseStorage } from "../hooks/useExpenseStorage";
-import { Expense, ExpenseCategory } from "../types/expense";
+import { Expense, ExpenseCategory, MealTime } from "../types/expense";
 import { TabPanel } from "../components/TabPanel";
 
 const StyledCard = styled(Card)`
@@ -87,12 +87,12 @@ export const Dashboard = () => {
   const [editFormData, setEditFormData] = useState<{
     amount: string;
     category: ExpenseCategory;
-    timeRange: NonNullable<Expense["timeRange"]> | "";
+    mealTime: MealTime;
     memo: string;
   }>({
     amount: "",
     category: "grocery",
-    timeRange: "",
+    mealTime: "breakfast",
     memo: "",
   });
   const [error, setError] = useState<string>("");
@@ -221,7 +221,7 @@ export const Dashboard = () => {
     setEditFormData({
       amount: expense.amount.toString(),
       category: expense.category,
-      timeRange: expense.timeRange || "",
+      mealTime: expense.mealTime,
       memo: expense.memo || "",
     });
   };
@@ -235,7 +235,7 @@ export const Dashboard = () => {
         ...editingExpense,
         amount: Number(editFormData.amount),
         category: editFormData.category,
-        timeRange: editFormData.timeRange,
+        mealTime: editFormData.mealTime,
         memo: editFormData.memo,
       };
       await updateExpense(updatedExpense);
@@ -530,9 +530,11 @@ export const Dashboard = () => {
                       {new Date(expense.date).toLocaleDateString("ja-JP")}
                     </Typography>
                     <Typography>
-                      {timeRangeLabels[
-                        expense.timeRange as keyof typeof timeRangeLabels
-                      ] || "未分類"}
+                      {
+                        timeRangeLabels[
+                          expense.mealTime as keyof typeof timeRangeLabels
+                        ]
+                      }
                     </Typography>
                     <Typography>{categoryLabels[expense.category]}</Typography>
                     <Typography align="right">
@@ -611,11 +613,11 @@ export const Dashboard = () => {
             label="時間帯"
             fullWidth
             margin="normal"
-            value={editFormData.timeRange}
+            value={editFormData.mealTime}
             onChange={(e) =>
               setEditFormData({
                 ...editFormData,
-                timeRange: e.target.value,
+                mealTime: e.target.value as MealTime,
               })
             }
           >

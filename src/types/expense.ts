@@ -7,13 +7,16 @@ export type ExpenseCategory =
   | "home_cooking"
   | "other";
 
+export type MealTime = "breakfast" | "lunch" | "dinner" | "snack";
+
 export interface Expense {
   id: string;
   amount: number;
   category: ExpenseCategory;
-  memo: string;
-  date: string;
-  timeRange?: "breakfast" | "lunch" | "dinner" | "snack" | "other";
+  date: Date;
+  mealTime: MealTime;
+  isHomeMade: boolean;
+  memo?: string;
 }
 
 export interface Budget {

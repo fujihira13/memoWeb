@@ -10,8 +10,11 @@ import {
   FormControlLabel,
   Stack,
   styled,
+  Snackbar,
+  Alert,
 } from "@mui/material";
 import { useExpenseStorage } from "../hooks/useExpenseStorage";
+import { useNavigate } from "react-router-dom";
 
 // スタイル付きのトグルボタン
 const StyledToggleButton = styled(ToggleButton)(({ theme }) => ({
@@ -46,23 +49,53 @@ const mealTimes = [
 ];
 
 export const Expense = () => {
+  const navigate = useNavigate();
   const { addExpense } = useExpenseStorage();
   const [amount, setAmount] = useState<string>("");
   const [category, setCategory] = useState<string>("");
   const [mealTime, setMealTime] = useState<string>("");
   const [isHomeMade, setIsHomeMade] = useState(false);
   const [date, setDate] = useState(new Date().toISOString().split("T")[0]);
+  const [showSuccess, setShowSuccess] = useState(false);
 
   const handleSubmit = () => {
-    if (!amount || !category) return;
+    // 時間帯が未選択の場合は処理を中断
+    if (!mealTime) {
+      alert("食事の時間帯を選択してください");
+      return;
+    }
 
-    addExpense({
-      amount: parseInt(amount),
-      category,
-      date: new Date(date),
-      mealTime,
-      isHomeMade,
-    });
+    if (isHomeMade) {
+      // 自炊の場合は金額0円で登録
+      addExpense({
+        amount: 0,
+        category: "home_cooking",
+        date: new Date(date),
+        mealTime,
+        isHomeMade,
+      });
+    } else {
+      if (!amount || !category) {
+        alert("金額とカテゴリーを入力してください");
+        return;
+      }
+
+      addExpense({
+        amount: parseInt(amount),
+        category,
+        date: new Date(date),
+        mealTime,
+        isHomeMade,
+      });
+    }
+
+    // 成功メッセージを表示
+    setShowSuccess(true);
+
+    // 1秒後にホーム画面に遷移
+    setTimeout(() => {
+      navigate("/");
+    }, 1000);
 
     // フォームをリセット
     setAmount("");
@@ -89,40 +122,44 @@ export const Expense = () => {
           label="自炊"
         />
 
-        {/* 金額入力 */}
-        <TextField
-          label={isHomeMade ? "金額を入力（自炊の場合は0円）" : "金額を入力"}
-          value={amount}
-          onChange={(e) => setAmount(e.target.value)}
-          type="number"
-          fullWidth
-          disabled={isHomeMade}
-        />
+        {/* 金額入力とカテゴリー選択（自炊モードがオフの時のみ表示） */}
+        {!isHomeMade && (
+          <>
+            {/* 金額入力 */}
+            <TextField
+              label="金額を入力"
+              value={amount}
+              onChange={(e) => setAmount(e.target.value)}
+              type="number"
+              fullWidth
+            />
 
-        {/* カテゴリー選択 */}
-        <Box>
-          <Typography variant="subtitle2" sx={{ mb: 1 }}>
-            カテゴリー
-          </Typography>
-          <ToggleButtonGroup
-            value={category}
-            exclusive
-            onChange={(_, value) => setCategory(value)}
-            fullWidth
-            sx={{ flexWrap: "wrap", gap: 1 }}
-          >
-            {categories.map((cat) => (
-              <StyledToggleButton key={cat.value} value={cat.value}>
-                {cat.label}
-              </StyledToggleButton>
-            ))}
-          </ToggleButtonGroup>
-        </Box>
+            {/* カテゴリー選択 */}
+            <Box>
+              <Typography variant="subtitle2" sx={{ mb: 1 }}>
+                カテゴリー
+              </Typography>
+              <ToggleButtonGroup
+                value={category}
+                exclusive
+                onChange={(_, value) => setCategory(value)}
+                fullWidth
+                sx={{ flexWrap: "wrap", gap: 1 }}
+              >
+                {categories.map((cat) => (
+                  <StyledToggleButton key={cat.value} value={cat.value}>
+                    {cat.label}
+                  </StyledToggleButton>
+                ))}
+              </ToggleButtonGroup>
+            </Box>
+          </>
+        )}
 
         {/* 食事の時間帯 */}
         <Box>
           <Typography variant="subtitle2" sx={{ mb: 1 }}>
-            食事の時間帯
+            食事の時間帯 <span style={{ color: "red" }}>*</span>
           </Typography>
           <ToggleButtonGroup
             value={mealTime}
@@ -164,6 +201,18 @@ export const Expense = () => {
           支出を記録
         </Button>
       </Stack>
+
+      {/* 成功メッセージ */}
+      <Snackbar
+        open={showSuccess}
+        autoHideDuration={3000}
+        onClose={() => setShowSuccess(false)}
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+      >
+        <Alert severity="success" onClose={() => setShowSuccess(false)}>
+          支出を記録しました
+        </Alert>
+      </Snackbar>
     </Box>
   );
 };
