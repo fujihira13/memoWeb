@@ -62,7 +62,7 @@ const categoryLabels = {
 
 const tabs = [
   { id: "timeRange", label: "時間帯別" },
-  { id: "daily", label: "日別レポート" },
+  { id: "daily", label: "日別" },
   { id: "analysis", label: "自炊分析" },
 ];
 

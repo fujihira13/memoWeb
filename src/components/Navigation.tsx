@@ -15,9 +15,9 @@ import AddCircleIcon from "@mui/icons-material/AddCircle";
 import SettingsIcon from "@mui/icons-material/Settings";
 
 const navItems = [
-  { path: "/", label: "ダッシュボード", icon: <DashboardIcon /> },
+  { path: "/", label: "ホーム", icon: <DashboardIcon /> },
   { path: "/report", label: "レポート", icon: <AssessmentIcon /> },
-  { path: "/expense", label: "支出を記録", icon: <AddCircleIcon /> },
+  { path: "/expense", label: "支出記録", icon: <AddCircleIcon /> },
   { path: "/settings", label: "設定", icon: <SettingsIcon /> },
 ];
 
@@ -55,7 +55,8 @@ export const Navigation = ({ orientation }: NavigationProps) => {
         bottom: 0,
         left: 0,
         right: 0,
-        boxShadow: "0 -2px 10px rgba(0, 0, 0, 0.1)",
+        boxShadow: "0 -1px 3px rgba(0, 0, 0, 0.05)",
+        borderTop: "1px solid rgba(0, 0, 0, 0.08)",
       }}
     >
       {navItems.map((item) => (
