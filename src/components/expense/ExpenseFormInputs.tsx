@@ -7,6 +7,12 @@ import {
   styled,
 } from "@mui/material";
 import { ExpenseCategory } from "../../types";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import RestaurantIcon from "@mui/icons-material/Restaurant";
+import IcecreamIcon from "@mui/icons-material/Icecream";
+import LocalBarIcon from "@mui/icons-material/LocalBar";
+import StorefrontIcon from "@mui/icons-material/Storefront";
+import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 
 // スタイル付きのトグルボタン
 const StyledToggleButton = styled(ToggleButton)(({ theme }) => ({
@@ -65,11 +71,22 @@ export const ExpenseFormInputs = ({
           value={category}
           exclusive
           onChange={(_, value) => onCategoryChange(value)}
-          fullWidth
-          sx={{ flexWrap: "wrap", gap: 1 }}
+          sx={{
+            display: "grid",
+            gridTemplateColumns: "repeat(2, 1fr)", // 2列グリッド
+            gap: 1,
+            width: "100%",
+          }}
         >
           {categories.map((cat) => (
-            <StyledToggleButton key={cat.value} value={cat.value}>
+            <StyledToggleButton
+              key={cat.value}
+              value={cat.value}
+              sx={{
+                padding: "12px 8px",
+                minHeight: "48px",
+              }}
+            >
               {cat.label}
             </StyledToggleButton>
           ))}
