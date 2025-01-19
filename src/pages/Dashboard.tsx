@@ -33,6 +33,8 @@ import { useExpenseStorage } from "../hooks/useExpenseStorage";
 import { Expense, ExpenseCategory, MealTime } from "../types/expense";
 import { TabPanel } from "../components/TabPanel";
 import { DailyReport } from "../components/dashboard";
+import { TimeRangeReport } from "../components/dashboard/TimeRangeReport";
+
 const StyledCard = styled(Card)`
   background-color: #ffffff;
   border-radius: 16px;
@@ -395,45 +397,11 @@ export const Dashboard = () => {
       </StyledCard>
 
       <TabPanel value={activeTab} index={0}>
-        {/* 時間帯別支出 */}
-        <StyledCard>
-          <CardContent>
-            <Typography variant="h6" gutterBottom>
-              時間帯別支出比較
-            </Typography>
-            <Box sx={{ mt: 2 }}>
-              {Object.entries(timeRangeData).map(([timeRange, data]) => (
-                <Box key={timeRange} sx={{ mb: 3 }}>
-                  <Box
-                    display="flex"
-                    justifyContent="space-between"
-                    alignItems="center"
-                  >
-                    <Typography>
-                      {timeRangeLabels[
-                        timeRange as keyof typeof timeRangeLabels
-                      ] || "未分類"}
-                    </Typography>
-                    <Box textAlign="right">
-                      <Typography>¥{data.amount.toLocaleString()}</Typography>
-                      <Typography variant="caption" color="text.secondary">
-                        平均: ¥
-                        {Math.round(data.amount / data.count).toLocaleString()}
-                        /食
-                      </Typography>
-                    </Box>
-                  </Box>
-                  <ProgressBar>
-                    <ProgressFill
-                      width={`${(data.amount / totalAmount) * 100}%`}
-                    />
-                  </ProgressBar>
-                </Box>
-              ))}
-            </Box>
-          </CardContent>
-        </StyledCard>
-
+        <TimeRangeReport
+          timeRangeData={timeRangeData}
+          timeRangeLabels={timeRangeLabels}
+          totalAmount={totalAmount}
+        />
         {/* 月間支出履歴 */}
         <StyledCard>
           <CardContent>
