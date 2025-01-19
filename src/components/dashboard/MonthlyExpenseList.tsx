@@ -1,15 +1,8 @@
 import { Box, Typography, CardContent, Card, IconButton } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import styled from "@emotion/styled";
 import { Expense } from "../../types/expense";
-
-const StyledCard = styled(Card)`
-  background-color: #ffffff;
-  border-radius: 16px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  margin-bottom: 16px;
-`;
+import { StyledCard, ProgressBar, ProgressFill } from "./styles";
 
 interface MonthlyExpenseListProps {
   monthlyExpenses: Expense[];

@@ -2,28 +2,7 @@ import { Box, Typography, CardContent, IconButton, Card } from "@mui/material";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import styled from "@emotion/styled";
-
-const StyledCard = styled(Card)`
-  background-color: #ffffff;
-  border-radius: 16px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  margin-bottom: 16px;
-`;
-
-const ProgressBar = styled(Box)`
-  width: 100%;
-  height: 8px;
-  background-color: #e0e0e0;
-  border-radius: 4px;
-  margin: 8px 0;
-`;
-
-const ProgressFill = styled(Box)<{ width: string }>`
-  height: 100%;
-  background-color: #0891b2;
-  border-radius: 4px;
-  width: ${(props) => props.width};
-`;
+import { StyledCard, ProgressBar, ProgressFill } from "./styles";
 
 interface DailyReportProps {
   selectedDate: Date;
