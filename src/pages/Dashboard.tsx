@@ -34,6 +34,7 @@ import { Expense, ExpenseCategory, MealTime } from "../types/expense";
 import { TabPanel } from "../components/TabPanel";
 import { DailyReport } from "../components/dashboard";
 import { TimeRangeReport } from "../components/dashboard/TimeRangeReport";
+import { MonthlyExpenseList } from "../components/dashboard/MonthlyExpenseList";
 
 const StyledCard = styled(Card)`
   background-color: #ffffff;
@@ -402,82 +403,14 @@ export const Dashboard = () => {
           timeRangeLabels={timeRangeLabels}
           totalAmount={totalAmount}
         />
-        {/* 月間支出履歴 */}
-        <StyledCard>
-          <CardContent>
-            <Typography variant="h6" gutterBottom>
-              月間合計
-            </Typography>
-            <Typography color="primary" variant="h4" sx={{ mb: 2 }}>
-              ¥{totalAmount.toLocaleString()}
-            </Typography>
-
-            <Box sx={{ width: "100%", overflow: "auto" }}>
-              <Box sx={{ minWidth: 600 }}>
-                <Box
-                  display="grid"
-                  gridTemplateColumns="1fr 1fr 1fr 1fr 100px"
-                  sx={{
-                    borderBottom: 1,
-                    borderColor: "divider",
-                    py: 1,
-                    color: "text.secondary",
-                  }}
-                >
-                  <Typography>日付</Typography>
-                  <Typography>時間帯</Typography>
-                  <Typography>カテゴリー</Typography>
-                  <Typography align="right">金額</Typography>
-                  <Typography align="center">操作</Typography>
-                </Box>
-
-                {monthlyExpenses.map((expense) => (
-                  <Box
-                    key={expense.id}
-                    display="grid"
-                    gridTemplateColumns="1fr 1fr 1fr 1fr 100px"
-                    sx={{
-                      borderBottom: 1,
-                      borderColor: "divider",
-                      py: 1,
-                    }}
-                  >
-                    <Typography>
-                      {new Date(expense.date).toLocaleDateString("ja-JP")}
-                    </Typography>
-                    <Typography>
-                      {
-                        timeRangeLabels[
-                          expense.mealTime as keyof typeof timeRangeLabels
-                        ]
-                      }
-                    </Typography>
-                    <Typography>{categoryLabels[expense.category]}</Typography>
-                    <Typography align="right">
-                      ¥{expense.amount.toLocaleString()}
-                    </Typography>
-                    <Box display="flex" justifyContent="center" gap={1}>
-                      <IconButton
-                        size="small"
-                        color="primary"
-                        onClick={() => handleEditClick(expense)}
-                      >
-                        <EditIcon fontSize="small" />
-                      </IconButton>
-                      <IconButton
-                        size="small"
-                        color="error"
-                        onClick={() => handleDelete(expense.id)}
-                      >
-                        <DeleteIcon fontSize="small" />
-                      </IconButton>
-                    </Box>
-                  </Box>
-                ))}
-              </Box>
-            </Box>
-          </CardContent>
-        </StyledCard>
+        <MonthlyExpenseList
+          monthlyExpenses={monthlyExpenses}
+          totalAmount={totalAmount}
+          timeRangeLabels={timeRangeLabels}
+          categoryLabels={categoryLabels}
+          onEditClick={handleEditClick}
+          onDeleteClick={handleDelete}
+        />
       </TabPanel>
 
       <TabPanel value={activeTab} index={1}>
