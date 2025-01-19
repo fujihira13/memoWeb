@@ -299,7 +299,7 @@ export const Dashboard = () => {
 
       {/* サマリーカード */}
       <Grid container spacing={2} sx={{ mb: 2 }}>
-        <Grid item xs={6}>
+        <Grid item xs={12} md={6} lg={4}>
           <StyledCard>
             <CardContent>
               <Typography color="text.secondary" variant="subtitle2">
@@ -311,7 +311,7 @@ export const Dashboard = () => {
             </CardContent>
           </StyledCard>
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={12} md={6} lg={4}>
           <StyledCard>
             <CardContent>
               <Typography color="text.secondary" variant="subtitle2">

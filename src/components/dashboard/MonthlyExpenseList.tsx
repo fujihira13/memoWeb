@@ -1,8 +1,15 @@
-import { Box, Typography, CardContent, Card, IconButton } from "@mui/material";
+import {
+  Box,
+  Typography,
+  CardContent,
+  IconButton,
+  useTheme,
+  useMediaQuery,
+} from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Expense } from "../../types/expense";
-import { StyledCard, ProgressBar, ProgressFill } from "./styles";
+import { StyledCard } from "./styles";
 
 interface MonthlyExpenseListProps {
   monthlyExpenses: Expense[];
@@ -21,6 +28,9 @@ export const MonthlyExpenseList = ({
   onEditClick,
   onDeleteClick,
 }: MonthlyExpenseListProps) => {
+  const theme = useTheme();
+  const isDesktop = useMediaQuery(theme.breakpoints.up("md"));
+
   return (
     <StyledCard>
       <CardContent>
@@ -31,8 +41,54 @@ export const MonthlyExpenseList = ({
           ¥{totalAmount.toLocaleString()}
         </Typography>
 
-        <Box sx={{ width: "100%", overflow: "auto" }}>
-          <Box sx={{ minWidth: 600 }}>
+        {/* モバイル表示 */}
+        {!isDesktop && (
+          <Box>
+            {monthlyExpenses.map((expense) => (
+              <Box
+                key={expense.id}
+                sx={{
+                  borderBottom: 1,
+                  borderColor: "divider",
+                  py: 2,
+                }}
+              >
+                <Box display="flex" justifyContent="space-between" mb={1}>
+                  <Typography variant="body2" color="text.secondary">
+                    {new Date(expense.date).toLocaleDateString("ja-JP")}
+                  </Typography>
+                  <Typography variant="h6">
+                    ¥{expense.amount.toLocaleString()}
+                  </Typography>
+                </Box>
+                <Box display="flex" justifyContent="space-between" mb={1}>
+                  <Typography>{timeRangeLabels[expense.mealTime]}</Typography>
+                  <Typography>{categoryLabels[expense.category]}</Typography>
+                </Box>
+                <Box display="flex" justifyContent="flex-end" gap={1}>
+                  <IconButton
+                    size="small"
+                    color="primary"
+                    onClick={() => onEditClick(expense)}
+                  >
+                    <EditIcon fontSize="small" />
+                  </IconButton>
+                  <IconButton
+                    size="small"
+                    color="error"
+                    onClick={() => onDeleteClick(expense.id)}
+                  >
+                    <DeleteIcon fontSize="small" />
+                  </IconButton>
+                </Box>
+              </Box>
+            ))}
+          </Box>
+        )}
+
+        {/* デスクトップ表示 */}
+        {isDesktop && (
+          <Box>
             <Box
               display="grid"
               gridTemplateColumns="1fr 1fr 1fr 1fr 100px"
@@ -88,7 +144,7 @@ export const MonthlyExpenseList = ({
               </Box>
             ))}
           </Box>
-        </Box>
+        )}
       </CardContent>
     </StyledCard>
   );

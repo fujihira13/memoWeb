@@ -1,18 +1,17 @@
 import { useNavigate, useLocation } from "react-router-dom";
-import { BottomNavigation, BottomNavigationAction } from "@mui/material";
+import {
+  Box,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  BottomNavigation,
+  BottomNavigationAction,
+} from "@mui/material";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import AssessmentIcon from "@mui/icons-material/Assessment";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import SettingsIcon from "@mui/icons-material/Settings";
-import styled from "@emotion/styled";
-
-const StyledBottomNavigation = styled(BottomNavigation)`
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
-`;
 
 const navItems = [
   { path: "/", label: "ダッシュボード", icon: <DashboardIcon /> },
@@ -21,14 +20,43 @@ const navItems = [
   { path: "/settings", label: "設定", icon: <SettingsIcon /> },
 ];
 
-export const Navigation = () => {
+interface NavigationProps {
+  orientation: "horizontal" | "vertical";
+}
+
+export const Navigation = ({ orientation }: NavigationProps) => {
   const navigate = useNavigate();
   const location = useLocation();
 
+  if (orientation === "vertical") {
+    return (
+      <List>
+        {navItems.map((item) => (
+          <ListItem
+            button
+            key={item.path}
+            selected={location.pathname === item.path}
+            onClick={() => navigate(item.path)}
+          >
+            <ListItemIcon>{item.icon}</ListItemIcon>
+            <ListItemText primary={item.label} />
+          </ListItem>
+        ))}
+      </List>
+    );
+  }
+
   return (
-    <StyledBottomNavigation
+    <BottomNavigation
       value={location.pathname}
       onChange={(_, newValue) => navigate(newValue)}
+      sx={{
+        position: "fixed",
+        bottom: 0,
+        left: 0,
+        right: 0,
+        boxShadow: "0 -2px 10px rgba(0, 0, 0, 0.1)",
+      }}
     >
       {navItems.map((item) => (
         <BottomNavigationAction
@@ -38,6 +66,6 @@ export const Navigation = () => {
           icon={item.icon}
         />
       ))}
-    </StyledBottomNavigation>
+    </BottomNavigation>
   );
 };
