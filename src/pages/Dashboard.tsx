@@ -35,6 +35,7 @@ import { TabPanel } from "../components/TabPanel";
 import { DailyReport } from "../components/dashboard";
 import { TimeRangeReport } from "../components/dashboard/TimeRangeReport";
 import { MonthlyExpenseList } from "../components/dashboard/MonthlyExpenseList";
+import { ExpenseEditDialog } from "../components/dashboard/ExpenseEditDialog";
 
 const StyledCard = styled(Card)`
   background-color: #ffffff;
@@ -428,80 +429,20 @@ export const Dashboard = () => {
       </TabPanel>
 
       {/* 編集ダイアログ */}
-      <Dialog open={!!editingExpense} onClose={() => setEditingExpense(null)}>
-        <DialogTitle>支出の編集</DialogTitle>
-        <DialogContent>
-          <TextField
-            label="金額"
-            type="number"
-            fullWidth
-            margin="normal"
-            value={editFormData.amount}
-            onChange={(e) =>
-              setEditFormData({
-                ...editFormData,
-                amount: e.target.value,
-              })
-            }
-          />
-          <TextField
-            select
-            label="カテゴリー"
-            fullWidth
-            margin="normal"
-            value={editFormData.category}
-            onChange={(e) =>
-              setEditFormData({
-                ...editFormData,
-                category: e.target.value as ExpenseCategory,
-              })
-            }
-          >
-            {Object.entries(categoryLabels).map(([value, label]) => (
-              <MenuItem key={value} value={value}>
-                {label}
-              </MenuItem>
-            ))}
-          </TextField>
-          <TextField
-            select
-            label="時間帯"
-            fullWidth
-            margin="normal"
-            value={editFormData.mealTime}
-            onChange={(e) =>
-              setEditFormData({
-                ...editFormData,
-                mealTime: e.target.value as MealTime,
-              })
-            }
-          >
-            {Object.entries(timeRangeLabels).map(([value, label]) => (
-              <MenuItem key={value} value={value}>
-                {label}
-              </MenuItem>
-            ))}
-          </TextField>
-          <TextField
-            label="メモ"
-            fullWidth
-            margin="normal"
-            value={editFormData.memo}
-            onChange={(e) =>
-              setEditFormData({
-                ...editFormData,
-                memo: e.target.value,
-              })
-            }
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setEditingExpense(null)}>キャンセル</Button>
-          <Button onClick={handleSaveEdit} variant="contained">
-            保存
-          </Button>
-        </DialogActions>
-      </Dialog>
+      <ExpenseEditDialog
+        open={!!editingExpense}
+        formData={editFormData}
+        categoryLabels={categoryLabels}
+        timeRangeLabels={timeRangeLabels}
+        onClose={() => setEditingExpense(null)}
+        onSave={handleSaveEdit}
+        onFormChange={(field, value) =>
+          setEditFormData({
+            ...editFormData,
+            [field]: value,
+          })
+        }
+      />
     </Box>
   );
 };

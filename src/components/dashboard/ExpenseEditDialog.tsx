@@ -12,10 +12,20 @@ import { EditFormData } from "../../types/props";
 
 interface ExpenseEditDialogProps {
   open: boolean;
-  formData: EditFormData;
+  formData: {
+    amount: string;
+    category: ExpenseCategory;
+    mealTime: MealTime;
+    memo: string;
+  };
+  categoryLabels: Record<string, string>;
+  timeRangeLabels: Record<string, string>;
   onClose: () => void;
-  onSave: () => void;
-  onChange: (field: keyof EditFormData, value: string) => void;
+  onSave: () => Promise<void>;
+  onFormChange: (
+    field: "amount" | "category" | "mealTime" | "memo",
+    value: string | ExpenseCategory | MealTime
+  ) => void;
 }
 
 const categories: { value: ExpenseCategory; label: string }[] = [
@@ -39,7 +49,7 @@ export const ExpenseEditDialog = ({
   formData,
   onClose,
   onSave,
-  onChange,
+  onFormChange,
 }: ExpenseEditDialogProps) => {
   return (
     <Dialog open={open} onClose={onClose}>
@@ -51,7 +61,7 @@ export const ExpenseEditDialog = ({
           fullWidth
           margin="normal"
           value={formData.amount}
-          onChange={(e) => onChange("amount", e.target.value)}
+          onChange={(e) => onFormChange("amount", e.target.value)}
         />
         <TextField
           select
@@ -60,7 +70,7 @@ export const ExpenseEditDialog = ({
           margin="normal"
           value={formData.category}
           onChange={(e) =>
-            onChange("category", e.target.value as ExpenseCategory)
+            onFormChange("category", e.target.value as ExpenseCategory)
           }
         >
           {categories.map((category) => (
@@ -75,7 +85,7 @@ export const ExpenseEditDialog = ({
           fullWidth
           margin="normal"
           value={formData.mealTime}
-          onChange={(e) => onChange("mealTime", e.target.value as MealTime)}
+          onChange={(e) => onFormChange("mealTime", e.target.value as MealTime)}
         >
           {Object.entries(timeRangeLabels).map(([value, label]) => (
             <MenuItem key={value} value={value}>
@@ -88,7 +98,7 @@ export const ExpenseEditDialog = ({
           fullWidth
           margin="normal"
           value={formData.memo}
-          onChange={(e) => onChange("memo", e.target.value)}
+          onChange={(e) => onFormChange("memo", e.target.value)}
         />
       </DialogContent>
       <DialogActions>
