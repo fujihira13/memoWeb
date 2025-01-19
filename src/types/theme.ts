@@ -20,3 +20,5 @@ declare module "@emotion/react" {
     };
   }
 }
+
+export type { Theme };

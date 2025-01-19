@@ -1,47 +1,20 @@
 import { useState } from "react";
-import { styled } from "@mui/material/styles";
 import {
   Box,
-  TextField,
-  Button,
   Typography,
-  ToggleButton,
-  ToggleButtonGroup,
   Switch,
   FormControlLabel,
   Stack,
-  Snackbar,
-  Alert,
+  TextField,
 } from "@mui/material";
-import { useExpenseStorage } from "../hooks/useExpenseStorage";
 import { useNavigate } from "react-router-dom";
-import { ExpenseCategory, MealTime } from "../types";
-import { ExpenseFormInputs } from "../components/expense/ExpenseFormInputs";
-import { ToggleButton as MuiToggleButton } from "@mui/material";
+import { useExpenseStorage } from "../../hooks/useExpenseStorage";
+import { ExpenseCategory, MealTime } from "../../types";
+import { ExpenseFormInputs } from "./ExpenseFormInputs";
+import { ExpenseMealTime } from "./ExpenseMealTime";
+import { ExpenseSubmit } from "./ExpenseSubmit";
 
-// 食事の時間帯の定義
-const mealTimes: { value: MealTime; label: string }[] = [
-  { value: "breakfast", label: "朝食" },
-  { value: "lunch", label: "昼食" },
-  { value: "dinner", label: "夕食" },
-  { value: "snack", label: "間食" },
-];
-
-// スタイル付きのトグルボタン
-const StyledToggleButton = styled(MuiToggleButton)({
-  flex: 1,
-  padding: "8px",
-  backgroundColor: "#f5f5f5",
-  "&.Mui-selected": {
-    backgroundColor: "#009688",
-    color: "white",
-    "&:hover": {
-      backgroundColor: "#00897b",
-    },
-  },
-});
-
-export const Expense = () => {
+export const ExpenseForm = () => {
   const navigate = useNavigate();
   const { addExpense } = useExpenseStorage();
   const [amount, setAmount] = useState<string>("");
@@ -128,24 +101,7 @@ export const Expense = () => {
         )}
 
         {/* 食事の時間帯 */}
-        <Box>
-          <Typography variant="subtitle2" sx={{ mb: 1 }}>
-            食事の時間帯 <span style={{ color: "red" }}>*</span>
-          </Typography>
-          <ToggleButtonGroup
-            value={mealTime}
-            exclusive
-            onChange={(_, value) => setMealTime(value)}
-            fullWidth
-            sx={{ flexWrap: "wrap", gap: 1 }}
-          >
-            {mealTimes.map((time) => (
-              <StyledToggleButton key={time.value} value={time.value}>
-                {time.label}
-              </StyledToggleButton>
-            ))}
-          </ToggleButtonGroup>
-        </Box>
+        <ExpenseMealTime mealTime={mealTime} onMealTimeChange={setMealTime} />
 
         {/* 日付選択 */}
         <TextField
@@ -156,34 +112,12 @@ export const Expense = () => {
         />
 
         {/* 送信ボタン */}
-        <Button
-          variant="contained"
-          onClick={handleSubmit}
-          fullWidth
-          sx={{
-            backgroundColor: "#009688",
-            color: "white",
-            py: 1.5,
-            "&:hover": {
-              backgroundColor: "#00897b",
-            },
-          }}
-        >
-          支出を記録
-        </Button>
+        <ExpenseSubmit
+          onSubmit={handleSubmit}
+          showSuccess={showSuccess}
+          onCloseSuccess={() => setShowSuccess(false)}
+        />
       </Stack>
-
-      {/* 成功メッセージ */}
-      <Snackbar
-        open={showSuccess}
-        autoHideDuration={3000}
-        onClose={() => setShowSuccess(false)}
-        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-      >
-        <Alert severity="success" onClose={() => setShowSuccess(false)}>
-          支出を記録しました
-        </Alert>
-      </Snackbar>
     </Box>
   );
 };
