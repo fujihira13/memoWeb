@@ -18,28 +18,7 @@ import StoreIcon from "@mui/icons-material/Store";
 import KitchenIcon from "@mui/icons-material/Kitchen";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import { useExpenseStorage } from "../hooks/useExpenseStorage";
-
-const StyledCard = styled(Card)`
-  background-color: #ffffff;
-  border-radius: 16px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  margin-bottom: 16px;
-`;
-
-const ProgressBar = styled(Box)`
-  width: 100%;
-  height: 4px;
-  background-color: #e0e0e0;
-  border-radius: 2px;
-  margin: 8px 0;
-`;
-
-const ProgressFill = styled(Box)<{ width: string }>`
-  height: 100%;
-  background-color: #2196f3;
-  border-radius: 2px;
-  width: ${(props) => props.width};
-`;
+import { StyledCard, ProgressBar, ProgressFill } from "../components/reports";
 
 const categoryIcons = {
   grocery: ShoppingCartIcon,
