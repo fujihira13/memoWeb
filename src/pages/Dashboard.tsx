@@ -41,6 +41,7 @@ import {
   ProgressBar,
   ProgressFill,
 } from "../components/dashboard/styles";
+import { MonthSelector } from "../components/dashboard/MonthSelector";
 
 const timeRangeLabels = {
   breakfast: "朝食",
@@ -291,40 +292,10 @@ export const Dashboard = () => {
       )}
 
       {/* 月選択 */}
-      <StyledCard>
-        <CardContent
-          sx={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-          }}
-        >
-          <IconButton
-            onClick={() => {
-              const newDate = new Date(selectedMonth);
-              newDate.setMonth(newDate.getMonth() - 1);
-              setSelectedMonth(newDate);
-            }}
-          >
-            <ChevronLeftIcon />
-          </IconButton>
-          <Typography variant="h6">
-            {selectedMonth.toLocaleDateString("ja-JP", {
-              year: "numeric",
-              month: "long",
-            })}
-          </Typography>
-          <IconButton
-            onClick={() => {
-              const newDate = new Date(selectedMonth);
-              newDate.setMonth(newDate.getMonth() + 1);
-              setSelectedMonth(newDate);
-            }}
-          >
-            <ChevronRightIcon />
-          </IconButton>
-        </CardContent>
-      </StyledCard>
+      <MonthSelector
+        selectedMonth={selectedMonth}
+        onMonthChange={setSelectedMonth}
+      />
 
       {/* サマリーカード */}
       <Grid container spacing={2} sx={{ mb: 2 }}>
