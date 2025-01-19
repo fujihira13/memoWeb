@@ -32,7 +32,7 @@ import KitchenIcon from "@mui/icons-material/Kitchen";
 import { useExpenseStorage } from "../hooks/useExpenseStorage";
 import { Expense, ExpenseCategory, MealTime } from "../types/expense";
 import { TabPanel } from "../components/TabPanel";
-
+import { DailyReport } from "../components/dashboard";
 const StyledCard = styled(Card)`
   background-color: #ffffff;
   border-radius: 16px;
@@ -245,58 +245,6 @@ export const Dashboard = () => {
       console.error(err);
     }
   };
-
-  // 日別レポートのコンテンツ
-  const renderDailyReport = () => (
-    <StyledCard>
-      <CardContent>
-        <Typography variant="h6" gutterBottom>
-          日別支出レポート
-        </Typography>
-        {/* 日付選択 */}
-        <Box sx={{ mb: 3, display: "flex", alignItems: "center", gap: 2 }}>
-          <IconButton onClick={() => handleDateChange(-1)}>
-            <ChevronLeftIcon />
-          </IconButton>
-          <Typography>
-            {selectedDate.toLocaleDateString("ja-JP", {
-              year: "numeric",
-              month: "long",
-              day: "numeric",
-            })}
-          </Typography>
-          <IconButton onClick={() => handleDateChange(1)}>
-            <ChevronRightIcon />
-          </IconButton>
-        </Box>
-
-        {/* 時間帯別支出 */}
-        {Object.entries(dailyData).map(([mealTime, data]) => (
-          <Box key={mealTime} sx={{ mb: 2 }}>
-            <Box
-              display="flex"
-              justifyContent="space-between"
-              alignItems="center"
-            >
-              <Typography>
-                {timeRangeLabels[mealTime as keyof typeof timeRangeLabels]}
-              </Typography>
-              <Typography>¥{data.amount.toLocaleString()}</Typography>
-            </Box>
-            <ProgressBar>
-              <ProgressFill width={`${(data.amount / totalDaily) * 100}%`} />
-            </ProgressBar>
-          </Box>
-        ))}
-
-        {/* 合計 */}
-        <Box sx={{ mt: 3, textAlign: "right" }}>
-          <Typography color="text.secondary">合計</Typography>
-          <Typography variant="h5">¥{totalDaily.toLocaleString()}</Typography>
-        </Box>
-      </CardContent>
-    </StyledCard>
-  );
 
   // 自炊分析のコンテンツ
   const renderCookingAnalysis = () => (
@@ -565,7 +513,13 @@ export const Dashboard = () => {
       </TabPanel>
 
       <TabPanel value={activeTab} index={1}>
-        {renderDailyReport()}
+        <DailyReport
+          selectedDate={selectedDate}
+          handleDateChange={handleDateChange}
+          dailyData={dailyData}
+          timeRangeLabels={timeRangeLabels}
+          totalDaily={totalDaily}
+        />
       </TabPanel>
 
       <TabPanel value={activeTab} index={2}>
