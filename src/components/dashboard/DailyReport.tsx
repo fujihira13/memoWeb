@@ -1,7 +1,7 @@
-import { Box, Typography, CardContent, IconButton, Card } from "@mui/material";
+import { Box, Typography, CardContent, IconButton } from "@mui/material";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import styled from "@emotion/styled";
+
 import { StyledCard, ProgressBar, ProgressFill } from "./styles";
 
 interface DailyReportProps {

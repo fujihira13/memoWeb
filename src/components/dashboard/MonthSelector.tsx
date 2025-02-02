@@ -1,4 +1,4 @@
-import { Box, Typography, CardContent, IconButton } from "@mui/material";
+import { Typography, CardContent, IconButton } from "@mui/material";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { StyledCard } from "./styles";

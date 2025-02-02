@@ -7,15 +7,9 @@ import {
   styled,
 } from "@mui/material";
 import { ExpenseCategory } from "../../types";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import RestaurantIcon from "@mui/icons-material/Restaurant";
-import IcecreamIcon from "@mui/icons-material/Icecream";
-import LocalBarIcon from "@mui/icons-material/LocalBar";
-import StorefrontIcon from "@mui/icons-material/Storefront";
-import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 
 // スタイル付きのトグルボタン
-const StyledToggleButton = styled(ToggleButton)(({ theme }) => ({
+const StyledToggleButton = styled(ToggleButton)(() => ({
   flex: 1,
   padding: "8px",
   backgroundColor: "#f5f5f5",

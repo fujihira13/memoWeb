@@ -1,8 +1,6 @@
 import { useNavigate, useLocation } from "react-router-dom";
 import {
-  Box,
   List,
-  ListItem,
   ListItemIcon,
   ListItemText,
   BottomNavigation,

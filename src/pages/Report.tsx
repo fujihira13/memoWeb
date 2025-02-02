@@ -1,22 +1,7 @@
 import { useState } from "react";
-import {
-  Box,
-  Card,
-  CardContent,
-  Typography,
-  IconButton,
-  Stack,
-} from "@mui/material";
-import styled from "@emotion/styled";
+import { Box, CardContent, Typography, IconButton } from "@mui/material";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import RestaurantIcon from "@mui/icons-material/Restaurant";
-import LocalCafeIcon from "@mui/icons-material/LocalCafe";
-import LocalBarIcon from "@mui/icons-material/LocalBar";
-import StoreIcon from "@mui/icons-material/Store";
-import KitchenIcon from "@mui/icons-material/Kitchen";
-import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import { useExpenseStorage } from "../hooks/useExpenseStorage";
 import {
   StyledCard,
@@ -25,40 +10,6 @@ import {
   MonthlyBudgetCard,
   CategoryExpenseCard,
 } from "../components/reports";
-
-const categoryIcons = {
-  grocery: ShoppingCartIcon,
-  eating_out: RestaurantIcon,
-  snack: LocalCafeIcon,
-  drinking: LocalBarIcon,
-  convenience: StoreIcon,
-  home_cooking: KitchenIcon,
-  other: MoreHorizIcon,
-};
-
-const categoryLabels: { [key: string]: string } = {
-  grocery: "スーパー",
-  eating_out: "外食",
-  snack: "間食",
-  drinking: "飲み会",
-  convenience: "コンビニ",
-  home_cooking: "自炊",
-  other: "その他",
-};
-
-const ProgressBar = styled.div`
-  background-color: #e0e0e0;
-  border-radius: 4px;
-  height: 8px;
-  margin-top: 4px;
-`;
-
-const ProgressFill = styled.div<{ width: string }>`
-  background-color: #009688;
-  border-radius: 4px;
-  height: 100%;
-  width: ${(props) => props.width};
-`;
 
 export const Report = () => {
   const { getMonthlyExpenses, budget } = useExpenseStorage();

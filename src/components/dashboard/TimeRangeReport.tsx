@@ -1,4 +1,4 @@
-import { Box, Typography, CardContent, Card } from "@mui/material";
+import { Box, Typography, CardContent } from "@mui/material";
 import { StyledCard, ProgressBar, ProgressFill } from "./styles";
 
 interface TimeRangeReportProps {

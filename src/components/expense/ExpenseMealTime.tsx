@@ -8,7 +8,7 @@ import {
 import { MealTime } from "../../types";
 
 // スタイル付きのトグルボタン
-const StyledToggleButton = styled(ToggleButton)(({ theme }) => ({
+const StyledToggleButton = styled(ToggleButton)(() => ({
   flex: 1,
   padding: "8px",
   backgroundColor: "#f5f5f5",

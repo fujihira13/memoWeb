@@ -1,33 +1,14 @@
 import { useState, useMemo } from "react";
 import {
   Box,
-  Card,
   CardContent,
   Typography,
-  IconButton,
   Grid,
   Tabs,
   Tab,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
-  Button,
-  TextField,
-  MenuItem,
   Alert,
 } from "@mui/material";
 
-import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
-import RestaurantIcon from "@mui/icons-material/Restaurant";
-import StorefrontIcon from "@mui/icons-material/Storefront";
-import IcecreamIcon from "@mui/icons-material/Icecream";
-import LocalBarIcon from "@mui/icons-material/LocalBar";
-import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import KitchenIcon from "@mui/icons-material/Kitchen";
 import { useExpenseStorage } from "../hooks/useExpenseStorage";
 import { Expense, ExpenseCategory, MealTime } from "../types/expense";

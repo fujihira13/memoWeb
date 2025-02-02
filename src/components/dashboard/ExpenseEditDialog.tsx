@@ -8,7 +8,6 @@ import {
   MenuItem,
 } from "@mui/material";
 import { ExpenseCategory, MealTime } from "../../types";
-import { EditFormData } from "../../types/props";
 
 interface ExpenseEditDialogProps {
   open: boolean;
